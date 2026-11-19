@@ -1,0 +1,13 @@
+name: build
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cargo install --locked --git https://github.com/horizon-rust/horizon cargo-horizon-mod
+      - run: cargo horizon-mod build --wasm
+      - uses: actions/upload-artifact@v4
+        with:
+          name: waypoints-hmod
+          path: target/horizon-mod/*.hmod
